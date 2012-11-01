@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use CentOSAMI::Creator;
+use MIME::Base64;
+
+my $params = eval decode_base64($ARGV[0]);
+
+my $creator = CentOSAMI::Creator->new(%$params);
+$creator->create_priv;
+
+

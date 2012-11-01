@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use CentOSAMI::Creator;
+
+my $creator = CentOSAMI::Creator->new(
+    bin_dir     => $FindBin::Bin,
+    private_key => $ENV{EC2_PRIVATE_KEY} || "$ENV{HOME}/.ec2/amikey.pem",
+    certificate => $ENV{EC2_CERT} || "$ENV{HOME}/.ec2/amicert.pem",
+    release     => 6,
+    arch        => (map(chomp && $_, `uname -i`))[0],
+    size        => 1,
+    target_dir  => "$ENV{PWD}/target",
+    quiet       => 0,
+);
+
+$creator->create;
+
